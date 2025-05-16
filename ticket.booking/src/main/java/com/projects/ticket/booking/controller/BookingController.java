@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projects.ticket.booking.dto.BookingRequest;
 import com.projects.ticket.booking.model.Booking;
+import com.projects.ticket.booking.model.Movie;
 import com.projects.ticket.booking.model.Show;
+import com.projects.ticket.booking.repository.MovieRepository;
 import com.projects.ticket.booking.repository.ShowRepository;
 import com.projects.ticket.booking.service.impl.BookingServiceImpl;
 
@@ -26,6 +28,9 @@ public class BookingController {
     @Autowired
     private ShowRepository showRepository;
 
+    @Autowired
+    private MovieRepository movieRepository;
+
     public BookingController(BookingServiceImpl bookingService) {
         this.bookingService = bookingService;
     }
@@ -36,6 +41,11 @@ public class BookingController {
         .bookTickets(request.getShowId(), request.getSeatNumbers(), request.getUserId())
         .map(ResponseEntity::ok)
         .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().build()));
+    }
+
+    @GetMapping("/movies")
+    public Flux<Movie> getAllMovies() {
+        return movieRepository.findAll();
     }
 
     @GetMapping("/shows")
