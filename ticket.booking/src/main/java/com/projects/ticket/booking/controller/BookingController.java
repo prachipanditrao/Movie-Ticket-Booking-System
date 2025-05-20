@@ -13,8 +13,10 @@ import com.projects.ticket.booking.dto.BookingRequest;
 import com.projects.ticket.booking.model.Booking;
 import com.projects.ticket.booking.model.Movie;
 import com.projects.ticket.booking.model.Show;
+import com.projects.ticket.booking.model.Theatre;
 import com.projects.ticket.booking.repository.MovieRepository;
 import com.projects.ticket.booking.repository.ShowRepository;
+import com.projects.ticket.booking.repository.TheatreRepository;
 import com.projects.ticket.booking.service.impl.BookingServiceImpl;
 
 import reactor.core.publisher.Flux;
@@ -30,6 +32,9 @@ public class BookingController {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private TheatreRepository theatreRepository;
 
     public BookingController(BookingServiceImpl bookingService) {
         this.bookingService = bookingService;
@@ -57,6 +62,12 @@ public class BookingController {
     public Flux<Show> getShowsByMovie(@PathVariable String movieId) {
         return showRepository.findAll()
             .filter(show -> show.getMovieId().equals(movieId));
+    }
+
+    @GetMapping("/theatres/{theatreId}")
+    public Flux<Theatre> getTheatreByTheatreId(@PathVariable String theatreId) {
+        return theatreRepository.findAll()
+            .filter(theatre -> theatre.getId().equals(theatreId));
     }
 }
 
