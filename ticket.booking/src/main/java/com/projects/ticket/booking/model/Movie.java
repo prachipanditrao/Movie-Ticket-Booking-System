@@ -12,4 +12,5 @@ public class Movie {
     private String name;
     private String genre;
     private Long duration;
+    private String posterUrl;
 }
